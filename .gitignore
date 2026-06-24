@@ -1,0 +1,60 @@
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Nix
+nix
+
+# Build outputs
+dist
+
+# Testing
+coverage
+*.lcov
+.nyc_output
+
+# Turbo
+.turbo
+
+# Biome
+.biome
+
+# TypeScript
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-store
+
+# OS
+.DS_Store
+*.pem
+
+# IDEs
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.swp
+*.swo
+*~
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Misc
+.cache
+.parcel-cache
+*.pid
+*.seed
+*.pid.lock
