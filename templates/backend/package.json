@@ -1,0 +1,39 @@
+{
+  "name": "backend",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch --watch-preserve-output src/server.ts",
+    "start": "node src/server.ts",
+    "build": "vp pack",
+    "start:dist": "node dist/server.mjs",
+    "check": "vp check",
+    "test": "vp test",
+    "prepare": "vp config --no-agent || true"
+  },
+  "dependencies": {
+    "@fastify/swagger": "9.5.2",
+    "@fastify/swagger-ui": "5.2.6",
+    "fastify": "5.8.5",
+    "fastify-zod-openapi": "5.6.1",
+    "zod": "4.4.3",
+    "zod-openapi": "5.4.6"
+  },
+  "devDependencies": {
+    "@types/node": "24.10.0",
+    "typescript": "5.9.3",
+    "vite-plus": "0.2.1",
+    "vitest": "4.1.9"
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": ">=24.0.0"
+    }
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "packageManager": "pnpm@10.34.4"
+}

@@ -1,0 +1,27 @@
+{
+  "name": "@repo/server",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch --watch-preserve-output src/server.ts",
+    "start": "node src/server.ts",
+    "build": "vp pack",
+    "test": "vp test"
+  },
+  "dependencies": {
+    "@fastify/swagger": "9.5.2",
+    "@fastify/swagger-ui": "5.2.6",
+    "fastify": "catalog:",
+    "fastify-zod-openapi": "5.6.1",
+    "zod": "catalog:",
+    "zod-openapi": "5.4.6"
+  },
+  "devDependencies": {
+    "@repo/tsconfig": "workspace:*",
+    "@types/node": "catalog:",
+    "typescript": "catalog:",
+    "vite-plus": "catalog:",
+    "vitest": "catalog:"
+  }
+}

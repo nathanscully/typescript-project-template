@@ -2,7 +2,15 @@
   "permissions": {
     "allow": [
       "Bash(mkdir:*)",
-      "Bash(touch:*)"
+      "Bash(touch:*)",
+      "Bash(find /Users/nathanscully/projects/deploy-nix/nix -type f -name \"*.nix\" | head -20)",
+      "Bash(find /Users/nathanscully/adora/code/aroda/main -maxdepth 1 -type f -name \".*\" -o -name \"*.json\" -o -name \"*.yml\" -o -name \"*.yaml\" 2>/dev/null | head -20)",
+      "Read(//private/etc/nix/**)",
+      "Read(//Users/nathanscully/.config/nix/**)",
+      "Bash(nix store *)",
+      "Bash(sudo -n launchctl list)",
+      "WebFetch(domain:viteplus.dev)",
+      "WebSearch"
     ],
     "deny": []
   }

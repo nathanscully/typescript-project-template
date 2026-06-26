@@ -1,0 +1,22 @@
+node_modules/
+dist/
+.vite-plus/
+.vite-hooks/
+*.tsbuildinfo
+coverage/
+
+# Env
+.env
+.env.local
+
+# Nix
+result
+result-*
+.direnv/
+
+# OS / editors
+.DS_Store
+*.swp
+.vscode/*
+!.vscode/extensions.json
+.idea/

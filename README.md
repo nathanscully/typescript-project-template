@@ -1,135 +1,66 @@
 # TypeScript Nix Flake Templates
 
-Modern TypeScript project templates using Nix flakes, featuring pnpm, Turborepo, and Biome.
+Fast-start TypeScript project templates built on the
+[vite+](https://viteplus.dev) toolchain (Vite 8, Oxlint, Oxfmt, Vitest, tsdown)
+with a reproducible Nix devshell. Spin up a new project with one command.
 
-## Features
+## Why
 
-- 🚀 **Turborepo** - High-performance build system
-- 📦 **pnpm** - Fast, disk space efficient package manager
-- 🔧 **Biome** - Fast formatter and linter (replaces ESLint + Prettier)
-- ❄️ **Nix Flakes** - Reproducible development environment
-- 📁 **Two Templates** - Monorepo and single library variants
-- 🔒 **TypeScript Strict Mode** - Catch errors at compile time
-- 🎯 **direnv** - Automatic environment loading
+- **One toolchain.** vite+ (`vp`) replaces ESLint, Prettier, the test runner, the
+  bundler, and commit hooks. All config lives in `vite.config.ts`.
+- **Reproducible runtime.** Nix pins Node + pnpm per project; no version drift,
+  works offline. vite+ runs as a normal dev-dependency.
+- **Validated.** Every template has an `nix run .#smoke-*` test that installs it,
+  runs `vp check`, builds it, and boots it.
 
 ## Templates
 
-### Monorepo Template
-
-Perfect for multi-package projects with shared dependencies:
-- `apps/` directory for applications
-- `packages/` directory for shared libraries
-- pnpm workspaces configured
-- Shared TypeScript configuration
-
-### Library Template
-
-Ideal for single-purpose packages:
-- Simple `src/` structure
-- Ready for npm publishing
-- Minimal configuration
+| Template   | What you get                                                                |
+| ---------- | --------------------------------------------------------------------------- |
+| `backend`  | Node.js + Fastify + zod-openapi, OpenAPI/Swagger UI, type-stripped dev      |
+| `spa`      | Vite 8 + TanStack Router (file-based) + TanStack Query + Tailwind 4         |
+| `monorepo` | pnpm + vite+ workspace: `apps/server` + `apps/client` + `packages/tsconfig` |
 
 ## Usage
 
-### Initialize in Current Directory
+```bash
+# Initialize in a new directory
+nix flake new my-app --template github:nathanscully/typescript-project-template#backend
+
+# …or into the current directory
+nix flake init --template github:nathanscully/typescript-project-template#spa
+```
+
+`#monorepo` is the default (`nix flake new my-app --template github:…`).
+
+Then:
 
 ```bash
-# Monorepo template (default)
-nix flake init --template github:yourusername/typescript-project-template
-
-# Library template
-nix flake init --template github:yourusername/typescript-project-template#library
+cd my-app
+nix develop          # or: direnv allow
+pnpm install
+pnpm dev
 ```
 
-### Create New Project
+## Requirements
+
+- [Nix](https://nixos.org) with flakes enabled
+- Optional: [direnv](https://direnv.net) for automatic shell loading
+
+## Developing the templates themselves
 
 ```bash
-# Monorepo
-nix flake new my-monorepo --template github:yourusername/typescript-project-template
+nix flake show          # list templates
+nix flake check         # eval + formatting (fast, offline)
+nix fmt                 # format this repo
 
-# Library
-nix flake new my-library --template github:yourusername/typescript-project-template#library
+nix run .#smoke-backend   # install + vp check + build + boot a template
+nix run .#smoke-spa
+nix run .#smoke-monorepo
 ```
 
-### Development Workflow
-
-1. **Enter the development shell:**
-   ```bash
-   nix develop
-   # or with direnv
-   direnv allow
-   ```
-
-2. **Install dependencies:**
-   ```bash
-   pnpm install
-   ```
-
-3. **Available commands:**
-   ```bash
-   pnpm dev        # Start development mode
-   pnpm build      # Build all packages
-   pnpm lint       # Run Biome linter
-   pnpm format     # Format code with Biome
-   pnpm typecheck  # Run TypeScript type checking
-   pnpm test       # Run tests
-   pnpm clean      # Clean build artifacts
-   ```
-
-## Project Structure
-
-### Monorepo
-```
-my-monorepo/
-├── apps/
-│   └── my-app/
-├── packages/
-│   └── shared/
-├── package.json
-├── pnpm-workspace.yaml
-├── turbo.json
-├── biome.json
-├── tsconfig.json
-└── flake.nix
-```
-
-### Library
-```
-my-library/
-├── src/
-│   └── index.ts
-├── package.json
-├── turbo.json
-├── biome.json
-├── tsconfig.json
-└── flake.nix
-```
-
-## Tools Included
-
-- **Node.js 20** - Latest LTS version
-- **TypeScript** - Type-safe JavaScript
-- **Turborepo** - Monorepo build orchestration
-- **Biome** - Fast formatting and linting
-- **pnpm** - Efficient package management
-- **Git** - Version control
-
-## Customization
-
-### Adding a Package (Monorepo)
-
-1. Create a new directory under `apps/` or `packages/`
-2. Add a `package.json` with a unique name
-3. Run `pnpm install` to link the workspace
-
-### Publishing (Library)
-
-The library template is configured for npm publishing:
-
-```bash
-pnpm version patch  # Bump version
-pnpm publish       # Publish to npm
-```
+See [CLAUDE.md](./CLAUDE.md) for architecture notes and maintenance gotchas
+(notably: every template needs `node-linker=hoisted` for vite+'s native addon).
 
 ## License
 

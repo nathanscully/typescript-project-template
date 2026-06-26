@@ -1,3 +1,26 @@
 packages:
   - "apps/*"
   - "packages/*"
+
+# pnpm's default isolated linker doesn't place vite-plus's NAPI native addon
+# (@voidzero-dev/vite-plus-<os>-<arch>) where its binding loader can require it.
+# Hoist so `vp` works across the workspace.
+nodeLinker: hoisted
+
+catalogMode: prefer
+
+# Single place to bump shared dependency versions. Packages reference these with
+# "catalog:" instead of a literal version.
+catalog:
+  "@types/node": 24.10.0
+  typescript: 5.9.3
+  vite-plus: 0.2.1
+  vitest: 4.1.9
+
+  "@tanstack/react-query": 5.101.1
+  "@tanstack/react-router": 1.170.16
+  react: 19.2.7
+  react-dom: 19.2.7
+
+  fastify: 5.8.5
+  zod: 4.4.3
