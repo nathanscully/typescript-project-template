@@ -19,6 +19,7 @@
           echo "  nix run .#smoke-backend   smoke-test the backend template"
           echo "  nix run .#smoke-spa       smoke-test the spa template"
           echo "  nix run .#smoke-monorepo  smoke-test the monorepo template"
+          echo "  nix run .#smoke-library   smoke-test the library template"
         '';
       };
     };
