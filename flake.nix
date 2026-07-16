@@ -33,6 +33,10 @@
           path = ./templates/spa;
           description = "Vite 8 + TanStack Start SPA (vite+ toolchain, Nix devshell)";
         };
+        library = {
+          path = ./templates/library;
+          description = "TypeScript library published to npm + JSR (vite+ toolchain, Nix devshell)";
+        };
         monorepo = {
           path = ./templates/monorepo;
           description = "pnpm + vite+ monorepo wiring a Fastify backend and a TanStack SPA";
