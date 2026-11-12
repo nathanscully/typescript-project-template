@@ -1,0 +1,21 @@
+node_modules/
+dist/
+
+# Generated from the `jsr` key in package.json by `pkg-to-jsr` at pack/publish time.
+jsr.json
+.vite-plus/
+.vite-hooks/
+*.tsbuildinfo
+coverage/
+
+# Nix
+result
+result-*
+.direnv/
+
+# OS / editors
+.DS_Store
+*.swp
+.vscode/*
+!.vscode/extensions.json
+.idea/
