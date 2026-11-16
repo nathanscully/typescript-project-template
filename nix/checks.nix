@@ -95,7 +95,7 @@
           echo "▸ preview server + curl page"
           # Bind to 127.0.0.1 and let Vite choose a free port (--strictPort off),
           # then read the actual port it printed — robust against a busy port.
-          pnpm exec vp preview --host 127.0.0.1 >preview.log 2>&1 &
+          NO_COLOR=1 pnpm exec vp preview --host 127.0.0.1 >preview.log 2>&1 &
           srv=$!
           port=""
           for _ in $(seq 1 80); do
