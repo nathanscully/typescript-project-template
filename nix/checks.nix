@@ -130,6 +130,41 @@
           pnpm run test
         '';
       };
+
+      librarySmoke = mkSmoke {
+        name = "library";
+        template = "library";
+        extraSteps = ''
+          echo "▸ vp check (lint + format + types)"
+          pnpm exec vp check
+
+          echo "▸ test"
+          pnpm run test
+
+          echo "▸ build (esm + dts)"
+          pnpm run build
+          test -f dist/index.mjs || { echo "✗ missing dist/index.mjs"; exit 1; }
+          test -f dist/index.d.mts || { echo "✗ missing dist/index.d.mts"; exit 1; }
+
+          echo "▸ run built output"
+          id="$(node --input-type=module -e 'import { uuidv7, isUuidv7 } from "./dist/index.mjs"; const v = uuidv7(); if (!isUuidv7(v)) process.exit(1); process.stdout.write(v);')"
+          echo "  uuidv7() → $id"
+          echo "$id" | grep -qE '^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$' \
+            || { echo "✗ built output did not produce a valid UUIDv7"; exit 1; }
+
+          echo "▸ generate jsr.json from the package.json jsr key"
+          pnpm run jsr
+          test -f jsr.json || { echo "✗ pkg-to-jsr did not emit jsr.json"; exit 1; }
+          grep -q '"@scope/my-lib"' jsr.json || { echo "✗ jsr.json missing name"; exit 1; }
+          grep -q '"./src/index.ts"' jsr.json || { echo "✗ jsr.json missing source exports"; exit 1; }
+
+          echo "▸ publint + are-the-types-wrong (package is publishable)"
+          pnpm exec publint
+          # ESM-only package: a CJS require() must use dynamic import(), which
+          # attw flags by default — that's intended here, so ignore that rule.
+          pnpm exec attw --pack . --ignore-rules cjs-resolves-to-esm
+        '';
+      };
     in
     {
       apps = {
@@ -144,6 +179,10 @@
         smoke-monorepo = {
           type = "app";
           program = "${monorepoSmoke}/bin/smoke-monorepo";
+        };
+        smoke-library = {
+          type = "app";
+          program = "${librarySmoke}/bin/smoke-library";
         };
       };
 
